@@ -9,8 +9,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Basket.API.csproj", "Services/Basket/Basket.API/"]
 RUN dotnet restore "Services/Basket/Basket.API/Basket.API.csproj"
-WORKDIR "/src/Services/Basket/Basket.API"
 COPY . .
+WORKDIR "/src/Services/Basket/Basket.API"
 RUN dotnet build "Basket.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
