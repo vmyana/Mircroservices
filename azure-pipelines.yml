@@ -12,8 +12,10 @@ variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '523e7370-1518-497b-96c7-3c6c5454de49'
   imageRepository: 'vmyanaaspnetcoremicroservices'
+  discountApiRepository: 'discountApiRepository'
   containerRegistry: 'aspnetcoremicroservices.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/src/Services/Catalog/Catalog.API/Dockerfile'
+  discountDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Discount/Discount.Grpc/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -34,6 +36,16 @@ stages:
         command: buildAndPush
         repository: $(imageRepository)
         dockerfile: $(dockerfilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+    
+    - task: Docker@2
+      displayName: Build and push an image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(discountApiRepository)
+        dockerfile: $(discountDockerFilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
