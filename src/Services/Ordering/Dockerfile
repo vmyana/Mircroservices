@@ -11,8 +11,8 @@ COPY ["Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ord
 COPY ["Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
 COPY ["Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
 RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
-COPY . .
 WORKDIR "/src/Services/Ordering/Ordering.API"
+COPY . .
 RUN dotnet build "Ordering.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
