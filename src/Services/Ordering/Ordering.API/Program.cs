@@ -1,5 +1,7 @@
+using Microsoft.EntityFrameworkCore;
 using Ordering.Application;
 using Ordering.Infrastructure;
+using Ordering.Infrastructure.Persistance;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,5 +29,13 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var service = scope.ServiceProvider;
+    var context = service.GetRequiredService<OrderContext>();
+    context.Database.Migrate();
+    await OrderContextSeed.SeedAsync(context);
+}
 
 app.Run();
