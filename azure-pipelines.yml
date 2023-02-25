@@ -11,11 +11,13 @@ resources:
 variables:
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: '523e7370-1518-497b-96c7-3c6c5454de49'
-  imageRepository: 'vmyanaaspnetcoremicroservices'
+  catalogApiRepository: 'catalogApiRepository'
   discountApiRepository: 'discountApiRepository'
+  orderingApiRepository: 'orderingApiRepository'
   containerRegistry: 'aspnetcoremicroservices.azurecr.io'
-  dockerfilePath: '$(Build.SourcesDirectory)/src/Services/Catalog/Catalog.API/Dockerfile'
+  catalogDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Catalog/Catalog.API/Dockerfile'
   discountDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Discount/Discount.Grpc/Dockerfile'
+  orderingDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Ordering/Ordering.API/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
@@ -23,10 +25,10 @@ variables:
 
 stages:
 - stage: Build
-  displayName: Build and push stage
+  displayName: Build and push docker images
   jobs:
   - job: Build
-    displayName: Build
+    displayName: Build docker image
     pool:
       vmImage: $(vmImageName)
     steps:
@@ -34,8 +36,8 @@ stages:
       displayName: Build and push catalog image to container registry
       inputs:
         command: buildAndPush
-        repository: $(imageRepository)
-        dockerfile: $(dockerfilePath)
+        repository: $(catalogApiRepository)
+        dockerfile: $(catalogDockerFilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
@@ -46,6 +48,16 @@ stages:
         command: buildAndPush
         repository: $(discountApiRepository)
         dockerfile: $(discountDockerFilePath)
+        containerRegistry: $(dockerRegistryServiceConnection)
+        tags: |
+          $(tag)
+
+    - task: Docker@2
+      displayName: Build and push ordering image to container registry
+      inputs:
+        command: buildAndPush
+        repository: $(orderingApiRepository)
+        dockerfile: $(orderingDockerFilePath)
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
