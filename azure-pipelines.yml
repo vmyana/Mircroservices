@@ -17,7 +17,7 @@ variables:
   containerRegistry: 'aspnetcoremicroservices.azurecr.io'
   catalogDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Catalog/Catalog.API/Dockerfile'
   discountDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Discount/Discount.Grpc/Dockerfile'
-  orderingDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Ordering/Ordering.API/Dockerfile'
+  orderingDockerFilePath: '$(Build.SourcesDirectory)/src/Services/Ordering/Dockerfile'
   tag: '$(Build.BuildId)'
 
   # Agent VM image name
