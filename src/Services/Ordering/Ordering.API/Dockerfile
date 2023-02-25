@@ -7,9 +7,9 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Ordering.API.csproj", "Services/Ordering/Ordering.API/"]
-COPY ["./Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
-COPY ["./Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
-COPY ["./Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
+COPY ["../Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
+COPY ["../Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
+COPY ["../Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
 RUN dotnet restore "Services/Ordering/Ordering.API/Ordering.API.csproj"
 COPY . .
 WORKDIR "/src/Services/Ordering/Ordering.API"
